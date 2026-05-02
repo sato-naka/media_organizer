@@ -1,3 +1,5 @@
 # exiftool は除外
 exiftool.exe
 exiftool_files/
+Camera/
+output/
