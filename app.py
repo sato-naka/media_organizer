@@ -58,7 +58,7 @@ def run():
 
 # ===== GUI =====
 root = tk.Tk()
-root.title("Media Organizer")
+root.title("たくさん画像移動整理君")
 root.geometry("400x400")
 
 # source input
@@ -66,14 +66,14 @@ src_var = tk.StringVar()
 src_frame = ttk.Frame(root)
 src_frame.pack(pady=10)
 ttk.Entry(src_frame, textvariable=src_var, width=40).pack(side="left")
-ttk.Button(src_frame, text="Select Source", command=select_source).pack(side="left")
+ttk.Button(src_frame, text="入力フォルダ", command=select_source).pack(side="left")
 
 # out input
 out_var = tk.StringVar()
 out_frame = ttk.Frame(root)
 out_frame.pack(pady=10)
 ttk.Entry(out_frame, textvariable=out_var, width=40).pack(side="left")
-ttk.Button(out_frame, text="Select Output", command=select_output).pack(side="left")
+ttk.Button(out_frame, text="出力フォルダ", command=select_output).pack(side="left")
 
 # date format
 radio_date_format = tk.StringVar(value="/%Y/%m")
@@ -104,19 +104,19 @@ copy_move_frame = ttk.Frame(root)
 copy_move_frame.pack(pady=10)
 ttk.Radiobutton(
     copy_move_frame,
-    text="Copy",
+    text="コピー",
     variable=radio_copy_move,
     value="copy"
 ).pack(side="left", padx=10)
 ttk.Radiobutton(
     copy_move_frame,
-    text="Move",
+    text="移動",
     variable=radio_copy_move,
     value="move"
 ).pack(side="left", padx=10)
 
 # run button
-ttk.Button(root, text="Run", style="Big.TButton", command=run).pack(pady=10)
+ttk.Button(root, text="実行", style="Big.TButton", command=run).pack(pady=10)
 
 # log
 log_box = tk.Text(root, height=10)
