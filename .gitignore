@@ -3,3 +3,6 @@ exiftool.exe
 exiftool_files/
 Camera/
 output/
+build/
+dist/
+app.spec
