@@ -1,7 +1,6 @@
 [tool.poetry]
-name = "media-organizer"
+name = "たくさん画像移動整理君"
 version = "0.1.0"
-description = "特定のフォルダから特定のフォルダへ年月で階層分けしながら画像や動画を仕分けるスクリプト"
 authors = ["sato-naka <sato.naka774@gmail.com>"]
 readme = "README.md"
 package-mode = false
