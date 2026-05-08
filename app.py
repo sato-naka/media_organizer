@@ -31,9 +31,6 @@ def run():
     date_format = radio_date_format.get()
     copy_or_move = radio_copy_move.get()
 
-    log_box.insert(tk.END, date_format)
-    log_box.insert(tk.END, copy_or_move)
-
     if not src or not out:
         messagebox.showerror("Error", "フォルダを指定してください")
         return
