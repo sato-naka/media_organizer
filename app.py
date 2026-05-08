@@ -28,25 +28,30 @@ def convert_relpath(path):
 def run():
     src = src_var.get()
     out = out_var.get()
+    date_format = radio_date_format.get()
+    copy_or_move = radio_copy_move.get()
+
+    log_box.insert(tk.END, date_format)
+    log_box.insert(tk.END, copy_or_move)
 
     if not src or not out:
         messagebox.showerror("Error", "フォルダを指定してください")
         return
 
-    exiftool = get_exiftool_path()
-
     cmd = [
-        exiftool,
+        get_exiftool_path(),
         "-r", "-P",
         "-ext", "jpg", "-ext", "jpeg", "-ext", "png", "-ext", "heic",
         "-ext", "mp4", "-ext", "mov",
-        "-Directory<DateTimeOriginal", "-d", f"{out}/%Y/%m",
-        "-Directory<ModifyDate", "-d", f"{out}/%Y/%m",
-        "-Directory<FileModifyDate", "-d", f"{out}/%Y/%m",
-        "-o", ".",  # TODO: ここはオプションでコピーか移動か選べるようにする ボタン実装済み。値を読み取って切り替える必要あり
-        # src, src2         # TODO: 複数フォルダ対応 これで実行できることは確認済み
-        src
+        "-Directory<DateTimeOriginal", "-d", f"{out}{date_format}",
+        "-Directory<ModifyDate", "-d", f"{out}{date_format}",
+        "-Directory<FileModifyDate", "-d", f"{out}{date_format}",
     ]
+
+    if copy_or_move == "copy":
+        cmd.extend(["-o", ".",])
+
+    cmd.extend([src]) # src, src2 TODO: 複数フォルダ対応 これで実行できることは確認済み
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
@@ -73,20 +78,43 @@ out_frame.pack(pady=10)
 ttk.Entry(out_frame, textvariable=out_var, width=40).pack(side="left")
 ttk.Button(out_frame, text="Select Output", command=select_output).pack(side="left")
 
-# copy / move
-selected = tk.StringVar(value="copy")
-radio_frame = ttk.Frame(root)
-radio_frame.pack(pady=10)
+# date format
+radio_date_format = tk.StringVar(value="/%Y/%m")
+date_format_frame = ttk.Frame(root)
+date_format_frame.pack(pady=10)
 ttk.Radiobutton(
-    radio_frame,
+    date_format_frame,
+    text="/年",
+    variable=radio_date_format,
+    value="/%Y"
+).pack(side="left", padx=10)
+ttk.Radiobutton(
+    date_format_frame,
+    text="/年/月",
+    variable=radio_date_format,
+    value="/%Y/%m"
+).pack(side="left", padx=10)
+ttk.Radiobutton(
+    date_format_frame,
+    text="/年/月/日",
+    variable=radio_date_format,
+    value="/%Y/%m/%d"
+).pack(side="left", padx=10)
+
+# copy / move
+radio_copy_move = tk.StringVar(value="copy")
+copy_move_frame = ttk.Frame(root)
+copy_move_frame.pack(pady=10)
+ttk.Radiobutton(
+    copy_move_frame,
     text="Copy",
-    variable=selected,
+    variable=radio_copy_move,
     value="copy"
 ).pack(side="left", padx=10)
 ttk.Radiobutton(
-    radio_frame,
+    copy_move_frame,
     text="Move",
-    variable=selected,
+    variable=radio_copy_move,
     value="move"
 ).pack(side="left", padx=10)
 
